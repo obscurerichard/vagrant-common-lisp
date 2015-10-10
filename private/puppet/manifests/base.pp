@@ -73,6 +73,7 @@ exec { 'install quicklisp':
 file { 'dot-vim':
   path => '/home/vagrant/.vim',
   ensure => present,
+  owner => vagrant,
   source => 'puppet:///modules/slimv/dot-vim',
   recurse => true,
 }
@@ -80,6 +81,7 @@ file { 'dot-vim':
 file { 'dot-vimrc':
   path => '/home/vagrant/.vimrc',
   ensure => present,
+  owner => vagrant,
   source => 'puppet:///modules/slimv/dot-vimrc',
 }
 
