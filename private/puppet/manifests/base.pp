@@ -20,6 +20,7 @@ exec { 'second update':
 package { ['emacs24', 'emacs24-el', 'emacs24-common-non-dfsg',
            'git-core',
            'sbcl', 'sbcl-doc', 'sbcl-source',
+	   'vim-nox',
            ]:
   ensure => present,
   require => Exec['second update'],
@@ -68,3 +69,80 @@ exec { 'install quicklisp':
                Package['sbcl'],
                Exec['download quicklisp'],  ],
 }
+
+file { 'dot-vim':
+  path => '/home/vagrant/.vim',
+  ensure => present,
+  source => 'puppet:///modules/slimv/dot-vim',
+  recurse => true,
+}
+
+file { 'dot-vimrc':
+  path => '/home/vagrant/.vimrc',
+  ensure => present,
+  source => 'puppet:///modules/slimv/dot-vimrc',
+}
+
+exec { 'download vim-pathogen':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle',
+  command => '/usr/bin/git clone https://github.com/tpope/vim-pathogen.git',
+  creates => '/home/vagrant/.vim/bundle/vim-pathogen',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Package['vim-nox'], ]
+}
+
+exec { 'install vim-pathogen':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle/vim-pathogen',
+  command => '/usr/bin/git checkout v2.3',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Exec['download vim-pathogen'], 
+               Package['vim-nox'], ]
+}
+
+
+exec { 'download vim-sensible':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle',
+  command => '/usr/bin/git clone https://github.com/tpope/vim-sensible.git',
+  creates => '/home/vagrant/.vim/bundle/vim-sensible',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Exec['download vim-pathogen'], 
+               Package['vim-nox'], ]
+}
+
+exec { 'install vim-sensible':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle/vim-sensible',
+  command => '/usr/bin/git checkout v1.1',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Exec['download vim-sensible'], 
+               Package['vim-nox'], ]
+}
+
+exec { 'download slimv':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle',
+  command => '/usr/bin/git clone https://github.com/kovisoft/slimv.git',
+  creates => '/home/vagrant/.vim/bundle/slimv',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Exec['download vim-pathogen'], 
+               Package['vim-nox'], ]
+}
+
+exec { 'install slimv':
+  user => 'vagrant',
+  cwd => '/home/vagrant/.vim/bundle/slimv',
+  command => '/usr/bin/git checkout 0.9.12',
+  require => [ File['dot-vim'],
+               File['dot-vimrc'], 
+               Exec['download slimv'], 
+               Package['vim-nox'], ]
+}
+
