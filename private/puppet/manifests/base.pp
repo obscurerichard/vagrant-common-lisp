@@ -20,7 +20,8 @@ exec { 'second update':
 package { ['emacs24', 'emacs24-el', 'emacs24-common-non-dfsg',
            'git-core',
            'sbcl', 'sbcl-doc', 'sbcl-source',
-	   'vim-nox',
+	   'tmux',
+	   'vim-nox', 
            ]:
   ensure => present,
   require => Exec['second update'],
@@ -67,7 +68,22 @@ exec { 'install quicklisp':
   require => [ File['sbcl-ql-install.lisp'],
                File['emacs-dir'],
                Package['sbcl'],
-               Exec['download quicklisp'],  ],
+               Exec['download quicklisp'],  
+	       ],
+}
+
+file { 'dot-profile':
+  path => '/home/vagrant/.profile',
+  ensure => present,
+  owner => 'vagrant',
+  source => 'puppet:///modules/tmux/dot-profile',
+}
+
+file { 'dot-tmux':
+  path => '/home/vagrant/.tmux',
+  ensure => present,
+  owner => 'vagrant',
+  source => 'puppet:///modules/tmux/dot-tmux.conf',
 }
 
 file { 'dot-vim':
@@ -92,7 +108,8 @@ exec { 'download vim-pathogen':
   creates => '/home/vagrant/.vim/bundle/vim-pathogen',
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+	       ],
 }
 
 exec { 'install vim-pathogen':
@@ -102,7 +119,8 @@ exec { 'install vim-pathogen':
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
                Exec['download vim-pathogen'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+	       ],
 }
 
 
@@ -114,7 +132,8 @@ exec { 'download vim-sensible':
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
                Exec['download vim-pathogen'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+	       ],
 }
 
 exec { 'install vim-sensible':
@@ -124,7 +143,8 @@ exec { 'install vim-sensible':
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
                Exec['download vim-sensible'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+	       ],
 }
 
 exec { 'download slimv':
@@ -135,7 +155,8 @@ exec { 'download slimv':
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
                Exec['download vim-pathogen'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+	       ],
 }
 
 exec { 'install slimv':
@@ -145,6 +166,8 @@ exec { 'install slimv':
   require => [ File['dot-vim'],
                File['dot-vimrc'], 
                Exec['download slimv'], 
-               Package['vim-nox'], ]
+               Package['vim-nox'], 
+               Package['tmux'], 
+	       ],
 }
 
