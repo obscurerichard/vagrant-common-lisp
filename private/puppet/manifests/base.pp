@@ -1,4 +1,4 @@
-exec { 'initial update': 
+exec { 'initial update':
   command => '/usr/bin/apt-get update',
 }
 
@@ -21,7 +21,7 @@ package { ['emacs24', 'emacs24-el', 'emacs24-common-non-dfsg',
            'git-core',
            'sbcl', 'sbcl-doc', 'sbcl-source',
            'tmux',
-           'vim-nox', 
+           'vim-nox',
            ]:
   ensure => present,
   require => Exec['second update'],
@@ -36,7 +36,7 @@ exec { 'download quicklisp':
 
 # The original version of this script downloaded quicklisp.lisp
 # as user:group root:root, which is undesirable. This fixes that
-# issue in an already-provisioned VM. 
+# issue in an already-provisioned VM.
 exec { 'fix quicklisp permissions':
   command => '/bin/chown vagrant quicklisp.lisp',
   require => Exec['download quicklisp'],
@@ -119,8 +119,8 @@ exec { 'download vim-pathogen':
   command => '/usr/bin/git clone https://github.com/tpope/vim-pathogen.git',
   creates => '/home/vagrant/.vim/bundle/vim-pathogen',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Package['vim-nox'], 
+               File['dot-vimrc'],
+               Package['vim-nox'],
 	       ],
 }
 
@@ -129,9 +129,9 @@ exec { 'install vim-pathogen':
   cwd => '/home/vagrant/.vim/bundle/vim-pathogen',
   command => '/usr/bin/git checkout v2.3',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Exec['download vim-pathogen'], 
-               Package['vim-nox'], 
+               File['dot-vimrc'],
+               Exec['download vim-pathogen'],
+               Package['vim-nox'],
 	       ],
 }
 
@@ -142,9 +142,9 @@ exec { 'download vim-sensible':
   command => '/usr/bin/git clone https://github.com/tpope/vim-sensible.git',
   creates => '/home/vagrant/.vim/bundle/vim-sensible',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Exec['download vim-pathogen'], 
-               Package['vim-nox'], 
+               File['dot-vimrc'],
+               Exec['download vim-pathogen'],
+               Package['vim-nox'],
 	       ],
 }
 
@@ -153,9 +153,9 @@ exec { 'install vim-sensible':
   cwd => '/home/vagrant/.vim/bundle/vim-sensible',
   command => '/usr/bin/git checkout v1.1',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Exec['download vim-sensible'], 
-               Package['vim-nox'], 
+               File['dot-vimrc'],
+               Exec['download vim-sensible'],
+               Package['vim-nox'],
 	       ],
 }
 
@@ -165,9 +165,9 @@ exec { 'download slimv':
   command => '/usr/bin/git clone https://github.com/kovisoft/slimv.git',
   creates => '/home/vagrant/.vim/bundle/slimv',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Exec['download vim-pathogen'], 
-               Package['vim-nox'], 
+               File['dot-vimrc'],
+               Exec['download vim-pathogen'],
+               Package['vim-nox'],
 	       ],
 }
 
@@ -176,10 +176,10 @@ exec { 'install slimv':
   cwd => '/home/vagrant/.vim/bundle/slimv',
   command => '/usr/bin/git checkout 0.9.12',
   require => [ File['dot-vim'],
-               File['dot-vimrc'], 
-               Exec['download slimv'], 
-               Package['vim-nox'], 
-               Package['tmux'], 
+               File['dot-vimrc'],
+               Exec['download slimv'],
+               Package['vim-nox'],
+               Package['tmux'],
 	       ],
 }
 
