@@ -80,7 +80,7 @@ exec { 'install quicklisp':
   require => [ File['sbcl-ql-install.lisp'],
                File['emacs-dir'],
                Package['sbcl'],
-               Exec['download quicklisp'],  
+               Exec['download quicklisp'],
 	       ],
 }
 
