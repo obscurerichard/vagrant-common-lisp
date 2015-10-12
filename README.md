@@ -110,8 +110,8 @@ package management. See the instructions in the previous link for instructions
 on loading packages. The `sbcl` installation in this package already has
 quicklisp loaded into its init files. 
 
-For example, invoke `sbcl` or start a `slime`/`slimv` REPL within `vim` or
-`emacs` and issue these statements in order to load the web development
+For example, invoke `sbcl` or start a `slime`/`slimv` REPL within `emacs` or
+`vim` and issue these statements in order to load the web development
 framework [clack](http://clacklisp.org/):
 
     (ql:quickload :clack)
