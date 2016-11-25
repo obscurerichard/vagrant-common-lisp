@@ -18,7 +18,7 @@ exec { 'second update':
 }
 
 package { ['emacs24', 'emacs24-el', 'emacs24-common-non-dfsg',
-           'git-core',
+           'git-core', 'subversion',
            'sbcl', 'sbcl-doc', 'sbcl-source',
            'clisp', 'clisp-doc','clisp-dev', 'gdb',
            'tmux',
@@ -83,6 +83,18 @@ exec { 'install quicklisp':
                Package['sbcl'],
                Exec['download quicklisp'],
 	       ],
+}
+
+exec { 'download clozure':
+  creates => '/usr/local/src/ccl',
+  command => '/usr/bin/svn co http://svn.clozure.com/publicsvn/openmcl/release/1.10/linuxx86/ccl /usr/local/src/ccl',
+  require => Package['subversion'],
+}
+
+exec { 'configure clozure':
+  creates => '/usr/local/bin/ccl',
+  command => '/bin/bash -c "ln -s /usr/local/src/ccl/ccl /usr/local/bin/ccl"',
+  require => Exec['download clozure'],
 }
 
 file { 'dot-profile':
